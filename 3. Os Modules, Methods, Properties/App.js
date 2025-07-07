@@ -1,7 +1,7 @@
 const os = require('os');
 
 console.log('Platform:',os.platform());
-console.log('Free Memory:',os.type());
+console.log('OS Type::',os.type());
 console.log('Total Memory:',os.totalmem());
 console.log('User:',os.userInfo());
 console.log('Free Memory:',os.freemem());
