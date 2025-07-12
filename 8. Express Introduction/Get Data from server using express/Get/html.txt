@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <button id="btn">Hello Press Me</button>
+    <p id="data">
+      you will see data from backend here
+    </p>
+  </div>
+
+  <script>
+    document.getElementById("btn").addEventListener("click", () => {
+      fetch('http://localhost:3000/get')
+        .then(response => response.json())
+        .then((data) =>
+        {
+          const output = `Name: ${data.name}, Age: ${data.Age}`;
+          document.getElementById('data').textContent = output;
+        })
+        .catch(err => {
+          document.getElementById('data').textContent = "Error: " + err.message;
+        });
+    });
+
+  </script>
+</body>
+</html>

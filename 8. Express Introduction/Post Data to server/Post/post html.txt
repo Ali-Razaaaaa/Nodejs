@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Message Form</title>
+</head>
+<body>
+  <h1>Send a Message</h1>
+  <form id="form-data">
+    <label>Name:</label><br />
+    <input type="text" name="name" id="input-name" required /><br /><br />
+    
+    <label>Message:</label><br />
+    <input type="text" name="message" id="input-message" required /><br /><br />
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('form-data').addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      const name = document.getElementById('input-name').value;
+      const message = document.getElementById('input-message').value;
+
+      fetch("http://localhost:3000/post", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`Server Says: ${data.status}`);
+      })
+      .catch(err => {
+        console.log("Error:", err.message);
+      });
+    });
+  </script>
+</body>
+</html>
