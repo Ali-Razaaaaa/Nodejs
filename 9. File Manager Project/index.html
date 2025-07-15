@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File CRUD Operations</title>
+</head>
+<body>
+  <h2>Create File</h2>
+  
+  <form id="create-form">
+    <input type="text" id="create-filename" placeholder="filename.txt" required />
+    <textarea id="create-content" placeholder="Enter content..." required></textarea>
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Read File</h2>
+  <form id="read-form">
+    <input type="text" id="read-filename" placeholder="filename.txt" required />
+    <button type="submit">Read</button>
+  </form>
+
+  <h2>Update File</h2>
+  <form id="update-form">
+    <input type="text" id="update-filename" placeholder="filename.txt" required />
+    <textarea id="update-content" placeholder="New content..." required></textarea>
+    <button type="submit">Update</button>
+  </form>
+
+  <h2>Delete File</h2>
+  <form id="delete-form">
+    <input type="text" id="delete-filename" placeholder="filename.txt" required />
+    <button type="submit">Delete</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const statusEl = document.getElementById('status');
+
+    document.getElementById('create-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const filename = document.getElementById('create-filename').value;
+      const content = document.getElementById('create-content').value;
+
+      fetch('http://localhost:3000/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename, content })
+      })
+      .then(res => res.json())
+      .then(data => statusEl.textContent = data.status);
+    });
+
+    document.getElementById('read-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const filename = document.getElementById('read-filename').value;
+
+      fetch(`http://localhost:3000/read/${encodeURIComponent(filename)}`)
+        .then(res => res.json())
+        .then(data => {
+          statusEl.textContent = data.status + "\n" + (data.content || '');
+        });
+    });
+
+    document.getElementById('update-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const filename = document.getElementById('update-filename').value;
+      const newContent = document.getElementById('update-content').value;
+
+      fetch(`http://localhost:3000/update/${encodeURIComponent(filename)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newContent })
+      })
+      .then(res => res.json())
+      .then(data => statusEl.textContent = data.status);
+    });
+
+    document.getElementById('delete-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const filename = document.getElementById('delete-filename').value;
+
+      fetch(`http://localhost:3000/delete/${encodeURIComponent(filename)}`, {
+        method: 'DELETE'
+      })
+      .then(res => res.json())
+      .then(data => statusEl.textContent = data.status);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head><title>Delete a File</title></head>
+<body>
+  <h2>Enter Name of the file to delete from server?</h2>
+  <form id="delete-form">
+    <input type="text" id="filename" placeholder="example.txt" required />
+    <button type="submit">Delete File</button>
+  </form>
+  <p id="status"></p>
+  </body>
+  <script>
+    document.getElementById('delete-form').addEventListener('submit',(e)=>
+{
+     
+    const filename = document.getElementById('filename').value;
+
+     e.preventDefault();
+     fetch(`http://localhost:3000/del/${encodeURIComponent(filename)}`,
+     {
+        method:'DELETE',
+    })
+    .then(response=>response.json())
+    .then(data=>
+    {
+        document.getElementById('status').textContent=data.status;
+    }
+    ).catch(err=>
+    {
+        console.log(err);
+    }
+    );
+})
+  </script>
+</html>

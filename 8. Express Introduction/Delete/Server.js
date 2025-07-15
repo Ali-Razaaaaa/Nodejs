@@ -1,0 +1,36 @@
+// server.js
+import express from 'express';
+import cors from 'cors';
+import fs from 'fs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const port = 3000;
+
+
+app.use(cors());
+app.use(express.json());
+
+app.delete('/del/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filepath = path.join(__dirname, filename);
+
+  fs.unlink(filepath, (err) => {
+    if (err) {
+
+      return res.status(404).json({ status: "File not found or could not be deleted." });
+
+    }
+    
+    res.json({ status: `File '${filename}' deleted successfully.` });
+
+  });
+});
+
+app.listen(port, () => {
+  console.log(`🚀 Server running at http://localhost:${port}`);
+});
