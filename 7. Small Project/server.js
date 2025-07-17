@@ -2,7 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const querystring = require('querystring');
 
-const server = http.createServer((req, res) => {
+const server = http.createServer((req, res) =>
+  {
   if (req.method === 'POST')
   {
     let body = '';
