@@ -1,0 +1,7 @@
+.App
+{
+  display: flex;
+  column-gap:200px;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
